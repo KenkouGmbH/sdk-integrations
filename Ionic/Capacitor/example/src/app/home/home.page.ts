@@ -15,7 +15,7 @@ export class HomePage {
   constructor() {}
 
   startMeasurement() {
-    KenkouSDK.startMeasurement()
+    KenkouSDK.startMeasurement();
   }
 
   clearUserData() {
@@ -23,7 +23,7 @@ export class HomePage {
   }
 
   startMeasurementOnboarding() {
-    KenkouSDK.startMeasurementOnboarding()
+    KenkouSDK.startMeasurementOnboarding();
   }
 
 }
