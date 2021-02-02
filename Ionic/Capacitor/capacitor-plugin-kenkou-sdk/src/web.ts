@@ -13,6 +13,18 @@ export class KenkouSDKWeb extends WebPlugin implements KenkouSDKPlugin {
     console.log('ECHO', options);
     return options;
   }
+
+  async startMeasurement(): Promise<any> {
+    return;
+  }
+
+  async clearUserData(): Promise<any> {
+    return;
+  }
+
+  async startMeasurementOnboarding(): Promise<any> {
+    return;
+  }
 }
 
 const KenkouSDK = new KenkouSDKWeb();

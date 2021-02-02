@@ -6,4 +6,7 @@ declare module '@capacitor/core' {
 
 export interface KenkouSDKPlugin {
   echo(options: { value: string }): Promise<{ value: string }>;
+  startMeasurement(): Promise<any>;
+  clearUserData(): Promise<any>;
+  startMeasurementOnboarding(): Promise<any>;
 }
