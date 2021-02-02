@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 
+import {Plugins} from '@capacitor/core';
+import 'capacitor-plugin-kenkou-sdk';
+
+const {KenkouSDK} = Plugins;
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -8,5 +13,17 @@ import { Component } from '@angular/core';
 export class HomePage {
 
   constructor() {}
+
+  startMeasurement() {
+    KenkouSDK.startMeasurement()
+  }
+
+  clearUserData() {
+    KenkouSDK.clearUserData();
+  }
+
+  startMeasurementOnboarding() {
+    KenkouSDK.startMeasurementOnboarding()
+  }
 
 }
