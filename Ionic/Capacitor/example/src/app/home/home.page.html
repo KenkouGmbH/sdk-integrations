@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Blank
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Blank</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid>
+    <ion-row class="ion-margin-top ion-justify-content-center">
+      <ion-button (click)="startMeasurement()">Start Measurement</ion-button>
+    </ion-row>
+    <ion-row class="ion-margin-top ion-justify-content-center">
+      <ion-button (click)="clearUserData()">Clear User Data</ion-button>
+    </ion-row>
+    <ion-row class="ion-margin-top ion-justify-content-center">
+      <ion-button (click)="startMeasurementOnboarding()">Start Measurement Onboarding</ion-button>
+    </ion-row>
+  </ion-grid>
+</ion-content>
