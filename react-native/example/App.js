@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -15,7 +15,8 @@ import {
   Text,
   useColorScheme,
   View,
-  Button
+  Button,
+  DeviceEventEmitter
 } from 'react-native';
 
 import {
@@ -57,6 +58,8 @@ const Section = ({ children, title }): React$Node => {
 const App: () => React$Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
+  const [value, setValue] = useState(0)
+
   const startMeasurement = () => {
     KenkouSdk.startMeasurement(1)
   }
@@ -69,9 +72,22 @@ const App: () => React$Node = () => {
     KenkouSdk.startMeasurementOnboarding(1)
   }
 
+  const startHeadlessMeasurement = () => {
+    KenkouSdk.startHeadlessMeasurement(1)
+  }
+
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
+  const trackHeartBeat = (event) => {
+    console.log('trackHeartBeat =====>', event);
+    setValue(event)
+  };
+
+  useEffect(() => {
+    DeviceEventEmitter.addListener('heartBeat', trackHeartBeat);
+  }, []);
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -84,19 +100,21 @@ const App: () => React$Node = () => {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="Step One">
+          <Section title="Start Measurement">
             <Button title="Start Measurement" onPress={startMeasurement}></Button>
           </Section>
-          <Section title="See Your Changes">
+          <Section title="Clear User Data">
             <Button title="Clear User Data" onPress={clearUserData}></Button>
           </Section>
-          <Section title="Debug">
+          <Section title="Start Measurement Onboarding">
             <Button title="Start Measurement Onboarding" onPress={startMeasurementOnboarding}></Button>
           </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
+          <Section title="Start Headless Measurement">
+            <Button title="Start Headless Measurement" onPress={startHeadlessMeasurement}></Button>
           </Section>
-          <LearnMoreLinks />
+          <Section title="Learn More">
+            Headless Measurement value: {value}
+          </Section>
         </View>
       </ScrollView>
     </SafeAreaView>
