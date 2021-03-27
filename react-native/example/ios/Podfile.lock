@@ -14,11 +14,11 @@ PODS:
     - GRDB.swift/standard (= 5.2.0)
   - GRDB.swift/standard (5.2.0)
   - IQKeyboardManagerSwift (6.5.6)
-  - KenkouCoreMeasurement (0.1.0):
-    - KenkouMeasurementCommonWrapper (~> 2.6.3)
-  - KenkouMeasurementCommonWrapper (2.6.3)
-  - KenkouSDK (1.1.1):
-    - KenkouCoreMeasurement (~> 0.1.0)
+  - KenkouCoreMeasurement (0.2.0):
+    - KenkouMeasurementCommonWrapper (~> 2.8.0)
+  - KenkouMeasurementCommonWrapper (2.8.0)
+  - KenkouSDK (1.2.1):
+    - KenkouCoreMeasurement (~> 0.2.0)
     - KenkouSDKStorage (~> 0.1.1)
     - KenkouSDKUIComponents (~> 0.1.1)
   - KenkouSDKStorage (0.1.1):
@@ -296,7 +296,7 @@ DEPENDENCIES:
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
-  - KenkouSDK (~> 1.1.0)
+  - KenkouSDK
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -332,7 +332,7 @@ SPEC REPOS:
     - KenkouSDK
     - KenkouSDKStorage
     - KenkouSDKUIComponents
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - boost-for-react-native
     - GRDB.swift
     - IQKeyboardManagerSwift
@@ -403,13 +403,13 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
-  FBReactNativeSpec: c94e483dd09d8b0f4b77c6680d59c1eecb1d8815
+  FBReactNativeSpec: c7e266eca4df9661e995e5e11aad0cb0d039ac07
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   GRDB.swift: f44f61fd032e176e3aadb1f70e15656dc50ca018
   IQKeyboardManagerSwift: c7df9d2deb356c04522f5c4b7b6e4ce4d8ed94fe
-  KenkouCoreMeasurement: 959ff118497d421b07adccfc2639b47a59ba8ab7
-  KenkouMeasurementCommonWrapper: 163528ef04195e6e2844a5f0203e19c558652965
-  KenkouSDK: d5e3c6d3fe6affdc620db7501b5897fbe1537cb0
+  KenkouCoreMeasurement: 39c68c5a4d61933ac0b472553f2d67df487c9c6d
+  KenkouMeasurementCommonWrapper: fe17a4bf562e317dc54b64f7b78ed3defc4f70b3
+  KenkouSDK: 030de3d292f0161436b04bc5a4a93569459db4f1
   KenkouSDKStorage: 8e9d813492e27488b2510b2409b1e7bdc7534060
   KenkouSDKUIComponents: ad11ec68d4b0b21ea7e3685878a19cdf3187155b
   OwlKit: 0ce9145e02af699ef8edb996e00d49db4e89b258
@@ -440,6 +440,6 @@ SPEC CHECKSUMS:
   SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
 
-PODFILE CHECKSUM: a45cac1040843dc8b5e6ea723c7965eca6c9c40b
+PODFILE CHECKSUM: 82019a143a855f8ff3ecca2109296baed1179854
 
 COCOAPODS: 1.10.1

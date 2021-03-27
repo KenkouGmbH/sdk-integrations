@@ -16,7 +16,9 @@ import {
   useColorScheme,
   View,
   Button,
-  DeviceEventEmitter
+  DeviceEventEmitter,
+  NativeModules,
+  NativeEventEmitter
 } from 'react-native';
 
 import {
@@ -28,6 +30,10 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import KenkouSdk from 'react-native-kenkou-sdk'
+
+const { ModelWithEmitter } = NativeModules;
+
+const eventEmitter = new NativeEventEmitter(ModelWithEmitter);
 
 const Section = ({ children, title }): React$Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -87,6 +93,7 @@ const App: () => React$Node = () => {
 
   useEffect(() => {
     DeviceEventEmitter.addListener('heartBeat', trackHeartBeat);
+    eventEmitter.addListener('heartBeat', trackHeartBeat)
   }, []);
 
   return (
