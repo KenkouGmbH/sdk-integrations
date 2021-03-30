@@ -8,7 +8,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.2.1'
+    classpath 'com.android.tools.build:gradle:4.1.0'
     // noinspection DifferentKotlinGradleVersion
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
@@ -29,13 +29,13 @@ android {
   compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
   buildToolsVersion getExtOrDefault('buildToolsVersion')
   defaultConfig {
-    minSdkVersion 16
+    minSdkVersion 21
     targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
     versionCode 1
     versionName "1.0"
-    
+
   }
-  
+
   buildTypes {
     release {
       minifyEnabled false
@@ -127,4 +127,29 @@ dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+  implementation files('lib/kenkou-measurement-sdk-1.14.aar')
+
+  implementation 'androidx.fragment:fragment-ktx:1.2.5'
+  implementation 'androidx.appcompat:appcompat:1.2.0'
+  implementation 'com.google.android.material:material:1.2.1'
+  implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+
+  implementation "androidx.camera:camera-camera2:1.0.0-beta10"
+  implementation "androidx.camera:camera-lifecycle:1.0.0-beta10"
+  implementation "androidx.camera:camera-view:1.0.0-alpha17"
+
+  implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+  implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+  implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
+
+  implementation "androidx.room:room-runtime:2.2.5"
+  implementation "androidx.room:room-ktx:2.2.5"
+
+  implementation "androidx.work:work-runtime-ktx:2.4.0"
+
+  implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+  implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+  implementation "com.squareup.wire:wire-runtime:3.4.0"
+  implementation "com.squareup.wire:wire-grpc-client:3.4.0"
 }
