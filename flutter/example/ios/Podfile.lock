@@ -1,0 +1,65 @@
+PODS:
+  - Flutter (1.0.0)
+  - flutter_kenkou_sdk (0.0.1):
+    - Flutter
+    - KenkouSDK
+  - GRDB.swift (5.2.0):
+    - GRDB.swift/standard (= 5.2.0)
+  - GRDB.swift/standard (5.2.0)
+  - IQKeyboardManagerSwift (6.5.6)
+  - KenkouCoreMeasurement (0.1.0):
+    - KenkouMeasurementCommonWrapper (~> 2.6.3)
+  - KenkouMeasurementCommonWrapper (2.6.3)
+  - KenkouSDK (1.1.1):
+    - KenkouCoreMeasurement (~> 0.1.0)
+    - KenkouSDKStorage (~> 0.1.1)
+    - KenkouSDKUIComponents (~> 0.1.1)
+  - KenkouSDKStorage (0.1.1):
+    - GRDB.swift (~> 5.2.0)
+  - KenkouSDKUIComponents (0.1.1):
+    - IQKeyboardManagerSwift
+    - OwlKit
+    - SteviaLayout
+  - OwlKit (1.1.3)
+  - SteviaLayout (4.7.3)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_kenkou_sdk (from `.symlinks/plugins/flutter_kenkou_sdk/ios`)
+  - KenkouSDK (~> 1.1.0)
+
+SPEC REPOS:
+  "git@github.com:KenkouGmbH/SDKPodspec.git":
+    - KenkouCoreMeasurement
+    - KenkouMeasurementCommonWrapper
+    - KenkouSDK
+    - KenkouSDKStorage
+    - KenkouSDKUIComponents
+  https://github.com/CocoaPods/Specs.git:
+    - GRDB.swift
+    - IQKeyboardManagerSwift
+    - OwlKit
+    - SteviaLayout
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_kenkou_sdk:
+    :path: ".symlinks/plugins/flutter_kenkou_sdk/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_kenkou_sdk: c61c85ae51e394db38a23ca69a85f6b3c1d19ad8
+  GRDB.swift: f44f61fd032e176e3aadb1f70e15656dc50ca018
+  IQKeyboardManagerSwift: c7df9d2deb356c04522f5c4b7b6e4ce4d8ed94fe
+  KenkouCoreMeasurement: 959ff118497d421b07adccfc2639b47a59ba8ab7
+  KenkouMeasurementCommonWrapper: 163528ef04195e6e2844a5f0203e19c558652965
+  KenkouSDK: d5e3c6d3fe6affdc620db7501b5897fbe1537cb0
+  KenkouSDKStorage: 8e9d813492e27488b2510b2409b1e7bdc7534060
+  KenkouSDKUIComponents: ad11ec68d4b0b21ea7e3685878a19cdf3187155b
+  OwlKit: 0ce9145e02af699ef8edb996e00d49db4e89b258
+  SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
+
+PODFILE CHECKSUM: 8776f07799bb98e97ad129f80cd355f22c916d49
+
+COCOAPODS: 1.10.0

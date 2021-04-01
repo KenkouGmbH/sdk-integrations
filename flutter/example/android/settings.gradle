@@ -1,3 +1,4 @@
+include ':kenkou-measurement-sdk-1.14'
 include ':app'
 
 def localPropertiesFile = new File(rootProject.projectDir, "local.properties")

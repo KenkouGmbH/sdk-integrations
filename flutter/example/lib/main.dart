@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_kenkou_sdk/flutter_kenkou_sdk.dart';
 
 void main() {
   runApp(MyApp());
@@ -63,6 +64,21 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _startMeasurement() {
+    String resp = FlutterKenkouSdk.startMeasurement.toString();
+    debugPrint('resp: $resp');
+  }
+
+  void _clearUserData() {
+    String resp = FlutterKenkouSdk.clearUserData.toString();
+    debugPrint('resp: $resp');
+  }
+
+  void _startMeasurementOnboarding() {
+    String resp = FlutterKenkouSdk.startMeasurementOnboarding.toString();
+    debugPrint('resp: $resp');
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -103,6 +119,18 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
+            ),
+            TextButton(
+              child: Text('Start Measurement'),
+              onPressed: _startMeasurement,
+            ),
+            TextButton(
+              child: Text('Clear User Data'),
+              onPressed: _clearUserData,
+            ),
+            TextButton(
+              child: Text('Start Measurement Onboarding'),
+              onPressed: _startMeasurementOnboarding,
             ),
           ],
         ),

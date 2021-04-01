@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('kenkou-measurement-sdk-1.14.aar'))

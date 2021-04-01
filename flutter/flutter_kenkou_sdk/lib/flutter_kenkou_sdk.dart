@@ -11,4 +11,19 @@ class FlutterKenkouSdk {
     final String version = await _channel.invokeMethod('getPlatformVersion');
     return version;
   }
+
+  static Future<String> get startMeasurement async {
+    final String version = await _channel.invokeMethod('startMeasurement');
+    return version;
+  }
+
+  static Future<String> get clearUserData async {
+    final String version = await _channel.invokeMethod('clearUserData');
+    return version;
+  }
+
+  static Future<String> get startMeasurementOnboarding async {
+    final String version = await _channel.invokeMethod('startMeasurementOnboarding');
+    return version;
+  }
 }
