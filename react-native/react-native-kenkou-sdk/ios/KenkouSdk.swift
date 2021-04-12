@@ -9,6 +9,10 @@ class KenkouSdk: NSObject, KenkouMeasurementSDKDelegate {
     }
 
     var measurementSDK: KenkouMeasurementSDKInterface?
+    var measurementHeadlessSDK: KenkouMeasurementSDKHeadlessInterface?
+
+    // self.measurementSDK = KenkouMeasurementSDK(tokenBlock: nil)
+    // self.measurementHeadlessSDK = KenkouMeasurementSDKHeadless(tokenBlock: nil)
 
     @objc(multiply:withB:withResolver:withRejecter:)
     func multiply(a: Float, b: Float, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
@@ -47,6 +51,28 @@ class KenkouSdk: NSObject, KenkouMeasurementSDKDelegate {
             let viewController = UIApplication.shared.windows.first!.rootViewController!
 
             self.measurementSDK?.presentMeasurementOnboarding(from: viewController)
+        }
+        resolve(1)
+    }
+
+    @objc(startHeadlessMeasurement:withResolver:withRejecter:)
+    func startHeadlessMeasurement(a: Float,resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        DispatchQueue.main.async {
+            
+            self.measurementHeadlessSDK = KenkouMeasurementSDKHeadless(tokenBlock: nil)
+            
+            print("startHeadlessMeasurement =====>")
+            
+            self.measurementHeadlessSDK?.startMeasurement(isBaseline: true, cameraPreviewLayer: nil, syntheticPeakTemplate: nil, startedCallback: {
+                
+            }, ppgDataCallback: nil, syntheticPeaksCallback: nil, signalQualityCallback: nil, fingerOnCameraCallback: {(value: Bool) in
+                print("fingerOnCameraCallback =====>", value)
+            }, fingerIsStableCallback: nil, heartBeatCallback: { (value: Int) in
+                print("heartBeatCallback =====>", value)
+                ModelWithEmitter.heartBeat(body: value)
+            }, hrLocalMinCallback: nil, hrLocalMaxCallback: nil, statisticsCallback: nil, stoppedCallback: {
+                
+            })
         }
         resolve(1)
     }

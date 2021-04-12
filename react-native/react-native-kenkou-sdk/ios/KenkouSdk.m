@@ -18,4 +18,8 @@ RCT_EXTERN_METHOD(startMeasurementOnboarding:(float)a
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(startHeadlessMeasurement:(float)a
+                 withResolver:(RCTPromiseResolveBlock)resolve
+                 withRejecter:(RCTPromiseRejectBlock)reject)
+
 @end
