@@ -23,6 +23,15 @@
     ```sh
     cd example
     yarn
+    cd ios
     pod install
+    ```
+    If you want to run from command line:
+    ```sh
     yarn ios
     ```
+    If you want to run with XCode:
+    ```sh
+    open example.xcworkspace
+    ```
+
