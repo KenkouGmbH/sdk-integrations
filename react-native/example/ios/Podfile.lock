@@ -403,7 +403,7 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
-  FBReactNativeSpec: c7e266eca4df9661e995e5e11aad0cb0d039ac07
+  FBReactNativeSpec: ed1ed250d46ab14fb774681481d4f6dfc7fee59b
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   GRDB.swift: f44f61fd032e176e3aadb1f70e15656dc50ca018
   IQKeyboardManagerSwift: c7df9d2deb356c04522f5c4b7b6e4ce4d8ed94fe
@@ -440,6 +440,6 @@ SPEC CHECKSUMS:
   SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
 
-PODFILE CHECKSUM: 82019a143a855f8ff3ecca2109296baed1179854
+PODFILE CHECKSUM: 3651c5aac03fded3f1aefff6c1afad66ca4994a9
 
 COCOAPODS: 1.10.1
