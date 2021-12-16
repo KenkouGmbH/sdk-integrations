@@ -7,18 +7,18 @@ import com.facebook.react.bridge.Promise
 
 class KenkouRNWrapperModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
-    override fun getName(): String {
-        return "KenkouReactNativeWrapper"
-    }
+  override fun getName(): String {
+    return "KenkouReactNativeWrapper"
+  }
 
-    // Example method
-    // See https://reactnative.dev/docs/native-modules-android
-    @ReactMethod
-    fun multiply(a: Int, b: Int, promise: Promise) {
+  // Example method
+  // See https://reactnative.dev/docs/native-modules-android
+  @ReactMethod
+  fun multiply(a: Int, b: Int, promise: Promise) {
 
-      promise.resolve(a * b)
+    promise.resolve(a * b)
 
-    }
+  }
 
 
 }
