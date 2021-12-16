@@ -29,7 +29,7 @@ def getExtOrIntegerDefault(name) {
 android {
   compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
   defaultConfig {
-    minSdkVersion 16
+    minSdkVersion 23
     targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
 
   }
@@ -45,6 +45,9 @@ android {
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
+  }
+  buildFeatures {
+    viewBinding true
   }
 }
 
@@ -120,9 +123,27 @@ repositories {
 }
 
 def kotlin_version = getExtOrDefault('kotlinVersion')
+def camerax_version = "1.1.0-alpha09"
+def lifecycle_version = "2.2.0"
+def kenkou_sdk_version = "3.0.0-beta02"
 
 dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
+
+  implementation files("lib/kenkou-measurement-sdk-${kenkou_sdk_version}.aar")
+  implementation files("lib/kenkou-measurement-sdk-visual-${kenkou_sdk_version}.aar")
+  implementation 'com.google.code.gson:gson:2.8.6'
+
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
+
+  implementation 'com.google.android.material:material:1.4.0'
+
+  implementation "androidx.camera:camera-camera2:$camerax_version"
+  implementation "androidx.camera:camera-lifecycle:$camerax_version"
+  implementation "androidx.camera:camera-view:1.0.0-alpha31"
+
+  implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+  implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.0-beta01'
 }
