@@ -2,5 +2,5 @@ rootProject.name = 'KenkouReactNativeWrapperExample'
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':app'
 
-include ':kenkoureactnativewrapper'
-project(':kenkoureactnativewrapper').projectDir = new File(rootProject.projectDir, '../../android')
+include ':kenkou-react-native-wrapper'
+project(':kenkou-react-native-wrapper').projectDir = new File(rootProject.projectDir, '../../android')

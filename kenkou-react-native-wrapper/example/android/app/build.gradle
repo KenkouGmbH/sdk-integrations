@@ -204,7 +204,7 @@ dependencies {
         implementation jscFlavor
     }
 
-    implementation project(':kenkoureactnativewrapper')
+    implementation project(':kenkou-react-native-wrapper')
 }
 
 // Run this once to be able to run the application with BUCK

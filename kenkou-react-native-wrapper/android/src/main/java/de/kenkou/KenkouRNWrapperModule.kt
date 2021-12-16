@@ -1,11 +1,11 @@
-package com.kenkoureactnativewrapper
+package de.kenkou
 
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.Promise
 
-class KenkouReactNativeWrapperModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
+class KenkouRNWrapperModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
     override fun getName(): String {
         return "KenkouReactNativeWrapper"
@@ -15,10 +15,10 @@ class KenkouReactNativeWrapperModule(reactContext: ReactApplicationContext) : Re
     // See https://reactnative.dev/docs/native-modules-android
     @ReactMethod
     fun multiply(a: Int, b: Int, promise: Promise) {
-    
+
       promise.resolve(a * b)
-    
+
     }
 
-    
+
 }

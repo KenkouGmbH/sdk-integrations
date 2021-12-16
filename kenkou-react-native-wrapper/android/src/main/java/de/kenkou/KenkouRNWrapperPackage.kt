@@ -1,4 +1,4 @@
-package com.kenkoureactnativewrapper
+package de.kenkou
 
 import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.NativeModule
@@ -6,9 +6,9 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ViewManager
 
 
-class KenkouReactNativeWrapperPackage : ReactPackage {
+class KenkouRNWrapperPackage : ReactPackage {
     override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> {
-        return listOf(KenkouReactNativeWrapperModule(reactContext))
+        return listOf(KenkouRNWrapperModule(reactContext))
     }
 
     override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> {
