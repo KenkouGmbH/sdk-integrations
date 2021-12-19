@@ -6,8 +6,8 @@ const LINKING_ERROR =
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo managed workflow\n';
 
-const Kenkou = NativeModules.Kenkou
-  ? NativeModules.Kenkou
+const Kenkou = NativeModules.RNKenkou
+  ? NativeModules.RNKenkou
   : new Proxy(
       {},
       {

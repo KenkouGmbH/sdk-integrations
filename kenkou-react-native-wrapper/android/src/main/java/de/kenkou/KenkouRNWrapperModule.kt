@@ -21,7 +21,7 @@ class KenkouRNWrapperModule(reactContext: ReactApplicationContext) : ReactContex
   private lateinit var promise: Promise
 
   override fun getName(): String {
-    return "Kenkou"
+    return "RNKenkou"
   }
 
   override fun initialize() {
