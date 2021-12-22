@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Button, Text } from 'react-native';
+import { Alert, Button, StyleSheet, Text, View } from 'react-native';
 import {
   getHistory,
   initialize,
@@ -30,7 +30,8 @@ export default function App() {
               const data = await presentMeasurement();
               console.log('presentMeasurement', JSON.stringify(data));
             } catch (error: any) {
-              console.log(error.code);
+              console.log(error.code, error.message);
+              if (error.message) Alert.alert(error.message);
             }
           }}
           title="Measure Now"
@@ -43,7 +44,7 @@ export default function App() {
               const data = await presentMeasurementInstructions();
               console.log('presentMeasurementInstructions', data);
             } catch (error: any) {
-              console.log(error.code);
+              console.log(error.code, error.message);
             }
           }}
           title="Do Perfect Measurement Tutorial"
@@ -56,7 +57,7 @@ export default function App() {
               const data = await presentOnboardingQuestionnaire();
               console.log('presentOnboardingQuestionnaire', data);
             } catch (error: any) {
-              console.log(error.code);
+              console.log(error.code, error.message);
             }
           }}
           title="Do Questionnaire"
@@ -71,7 +72,7 @@ export default function App() {
               const data = await presentHistory(history);
               console.log('presentHistory', data);
             } catch (error: any) {
-              console.log(error.code);
+              console.log(error.code, error.message);
             }
           }}
           title="Show History"
@@ -93,7 +94,7 @@ export default function App() {
               });
               console.log('saveOnboardingQuestionnaireAnswers', data);
             } catch (error: any) {
-              console.log(error);
+              console.log(error.code, error.message);
             }
           }}
           title="Save Answers"
@@ -105,7 +106,7 @@ export default function App() {
             try {
               await startMeasurement();
             } catch (error: any) {
-              console.log(error);
+              console.log(error.code, error.message);
             }
           }}
           title="Start Measurement"
@@ -117,7 +118,7 @@ export default function App() {
             try {
               await stopMeasurement();
             } catch (error: any) {
-              console.log(error);
+              console.log(error.code, error.message);
             }
           }}
           title="Stop Measurement"
