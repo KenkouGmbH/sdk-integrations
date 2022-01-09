@@ -11,6 +11,7 @@ import de.kenkou.sdk.headless.domain.model.anamnesis.obqa.OnboardingQuestionnair
 import de.kenkou.sdk.headless.domain.model.measurement.HistoryItem
 import de.kenkou.sdk.headless.domain.model.measurement.Measurement
 import de.kenkou.sdk.headless.domain.model.measurement.PostMeasurementQuestionnaireAnswers
+import de.kenkou.sdk.headless.domain.model.measurement.RealtimeData
 import org.json.JSONArray
 import org.json.JSONObject
 import java.time.Instant
@@ -84,6 +85,12 @@ class KenkouUtils {
     fun getReadablePostAnswers(map: ReadableMap) : PostMeasurementQuestionnaireAnswers {
       val jsonObject = JsonUtils.convertMapToJson(map)
       return getGson().fromJson(jsonObject.toString(), PostMeasurementQuestionnaireAnswers::class.java)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getWritableRealtimeData(realtimeData: RealtimeData) : WritableMap {
+      val jsonString = getGson().toJson(realtimeData)
+      return JsonUtils.jsonObjectToWritableMap(JSONObject(jsonString))
     }
   }
 }

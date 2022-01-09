@@ -1,4 +1,12 @@
-import { NativeModules, Platform } from 'react-native';
+import React from 'react';
+import {
+  findNodeHandle,
+  NativeModules,
+  Platform,
+  requireNativeComponent,
+  UIManager,
+  ViewStyle,
+} from 'react-native';
 
 const LINKING_ERROR =
   `The package 'kenkou-react-native-wrapper' doesn't seem to be linked. Make sure: \n\n` +
@@ -61,8 +69,8 @@ export function saveOnboardingQuestionnaireAnswers(answers: Object) {
   return Kenkou.saveOnboardingQuestionnaireAnswers(answers);
 }
 
-export function startMeasurement() {
-  return Kenkou.startMeasurement();
+export function startMeasurement(params: Object) {
+  return Kenkou.startMeasurement(params);
 }
 
 export function stopMeasurement() {
@@ -79,3 +87,44 @@ export function savePostMeasurementQuestionnaireAnswers(
 export function getHistory() {
   return Kenkou.getHistory();
 }
+
+// Native UI Component
+
+const ComponentName = 'RNKenkouCameraView';
+
+type CameraViewProps = {
+  ref?: any;
+  onMeasure: Function;
+  statusBarTranslucent?: boolean;
+  style?: ViewStyle;
+};
+
+const RCTCameraView =
+  UIManager.getViewManagerConfig(ComponentName) != null
+    ? requireNativeComponent<CameraViewProps>(ComponentName)
+    : () => {
+        throw new Error(LINKING_ERROR);
+      };
+
+export const CameraView = React.forwardRef(
+  ({ onMeasure, ...props }: CameraViewProps, ref) => {
+    const cameraRef = React.useRef();
+    React.useImperativeHandle(ref, () => ({
+      startMeasurement: () => {
+        UIManager.dispatchViewManagerCommand(
+          findNodeHandle(cameraRef.current as any),
+          UIManager.getViewManagerConfig(ComponentName).Commands
+            .startMeasurement,
+          []
+        );
+      },
+    }));
+    return (
+      <RCTCameraView
+        ref={cameraRef}
+        onMeasure={(event: any) => onMeasure(event.nativeEvent)}
+        {...props}
+      />
+    );
+  }
+);

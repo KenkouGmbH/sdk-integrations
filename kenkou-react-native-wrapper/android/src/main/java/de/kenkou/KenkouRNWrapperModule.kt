@@ -4,10 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.util.Log
+import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.facebook.react.bridge.*
 import de.kenkou.sdk.headless.KenkouSDKHeadless
+import de.kenkou.sdk.headless.core.camera.CameraView
 import de.kenkou.sdk.headless.core.service.AuthTokenProvider
 import de.kenkou.sdk.headless.domain.model.OnboardingQuestionnaireException
 import de.kenkou.sdk.headless.domain.model.measurement.RealtimeData
@@ -159,13 +161,26 @@ class KenkouRNWrapperModule(reactContext: ReactApplicationContext) : ReactContex
   }
 
   @ReactMethod
-  fun startMeasurement(promise: Promise) {
+  fun startMeasurement(params: ReadableMap, promise: Promise) {
     try {
       UiThreadUtil.runOnUiThread {
+        val view = CameraView(reactApplicationContext)
+        val density = reactApplicationContext.resources.displayMetrics.density
+        val layoutParams = FrameLayout.LayoutParams(
+          ((if (params.hasKey("width")) params.getInt("width") else 80) * density).toInt(),
+          ((if (params.hasKey("height")) params.getInt("height") else 80) * density).toInt(),
+        )
+        layoutParams.setMargins(
+          ((if (params.hasKey("left")) params.getInt("left") else 0) * density).toInt(),
+          ((if (params.hasKey("top")) params.getInt("top") else 0) * density).toInt(),
+          0,
+          0)
+        currentActivity!!.findViewById<FrameLayout>(android.R.id.content).addView(view, layoutParams)
+
         KenkouSDKHeadless.startMeasurement(
           currentActivity as AppCompatActivity,
           realtimeDataCallback,
-          null
+          view
         )
         promise.resolve(true)
       }
@@ -174,9 +189,11 @@ class KenkouRNWrapperModule(reactContext: ReactApplicationContext) : ReactContex
     }
   }
 
+  @RequiresApi(Build.VERSION_CODES.O)
   @ReactMethod
   fun stopMeasurement(promise: Promise) {
-    promise.resolve(KenkouSDKHeadless.stopMeasurement())
+    promise.resolve(KenkouSDKHeadless.stopMeasurement()
+      ?.let { KenkouUtils.getWritableMeasurement(it) })
   }
 
   @RequiresApi(Build.VERSION_CODES.O)

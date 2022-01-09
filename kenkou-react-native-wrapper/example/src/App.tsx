@@ -1,7 +1,5 @@
-import * as React from 'react';
-
-import { Alert, Button, StyleSheet, Text, View } from 'react-native';
 import {
+  CameraView,
   getHistory,
   initialize,
   presentHistory,
@@ -9,17 +7,39 @@ import {
   presentMeasurementInstructions,
   presentOnboardingQuestionnaire,
   saveOnboardingQuestionnaireAnswers,
-  startMeasurement,
+  // startMeasurement,
   stopMeasurement,
 } from 'kenkou-react-native-wrapper';
+import React from 'react';
+import {
+  Alert,
+  Button,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 export default function App() {
+  const cameraRef = React.useRef(null);
+  const [isMeasuring, setMeasuring] = React.useState(false);
+  const [realtimeData, setRealtimeData] = React.useState(null);
+
   React.useEffect(() => {
     initialize('');
   }, []);
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
+      <CameraView
+        ref={cameraRef}
+        onMeasure={({ drawData, ...data }: any) => {
+          console.log(Date.now(), data);
+          setRealtimeData({ ...data, drawData });
+          if (data.progress >= 1) setMeasuring(false);
+        }}
+        style={styles.camera}
+      />
       <View style={styles.button}>
         <Text>Visual:</Text>
       </View>
@@ -104,7 +124,14 @@ export default function App() {
         <Button
           onPress={async () => {
             try {
-              await startMeasurement();
+              await cameraRef.current?.startMeasurement();
+              // await startMeasurement({
+              //   width: 80,
+              //   height: 80,
+              //   left: 20,
+              //   top: 20,
+              // });
+              setMeasuring(true);
             } catch (error: any) {
               console.log(error.code, error.message);
             }
@@ -114,9 +141,11 @@ export default function App() {
       </View>
       <View style={styles.button}>
         <Button
+          disabled={!isMeasuring}
           onPress={async () => {
             try {
               await stopMeasurement();
+              setMeasuring(false);
             } catch (error: any) {
               console.log(error.code, error.message);
             }
@@ -124,17 +153,31 @@ export default function App() {
           title="Stop Measurement"
         />
       </View>
-    </View>
+      <View style={styles.info}>
+        {realtimeData &&
+          Object.keys(realtimeData).map((key) => (
+            <Text numberOfLines={2} key={key}>
+              {key}: {`${realtimeData[key]}`}
+            </Text>
+          ))}
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    padding: 16,
   },
   button: {
     marginVertical: 10,
+  },
+  camera: {
+    width: 80,
+    height: 80,
+  },
+  info: {
+    alignSelf: 'stretch',
   },
 });
