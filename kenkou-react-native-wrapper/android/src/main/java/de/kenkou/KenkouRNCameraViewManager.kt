@@ -2,11 +2,15 @@ package de.kenkou
 
 import android.graphics.Rect
 import android.os.Build
-import android.widget.FrameLayout
+import android.os.Handler
+import android.os.Looper
+import android.view.Choreographer
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.common.MapBuilder
+import com.facebook.react.uimanager.ReactStylesDiffMap
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.annotations.ReactProp
@@ -29,6 +33,11 @@ class KenkouRNCameraViewManager : SimpleViewManager<CameraView>() {
 
   override fun createViewInstance(reactContext: ThemedReactContext): CameraView {
     return CameraView(reactContext)
+  }
+
+  override fun updateProperties(viewToUpdate: CameraView, props: ReactStylesDiffMap?) {
+    super.updateProperties(viewToUpdate, props)
+    Handler(Looper.getMainLooper()).postDelayed({ this.setupLayoutHack(viewToUpdate) },100)
   }
 
   @ReactProp(name = "statusBarTranslucent")
@@ -67,25 +76,13 @@ class KenkouRNCameraViewManager : SimpleViewManager<CameraView>() {
 
   @RequiresApi(Build.VERSION_CODES.O)
   private fun startHeadlessMeasurement(view: CameraView) {
-    val currentActivity = (view.context as ThemedReactContext).currentActivity as AppCompatActivity
-    val cameraView = CameraView(currentActivity)
-    val location = IntArray(2)
-    view.getLocationOnScreen(location)
-    val layoutParams = FrameLayout.LayoutParams(view.width, view.height)
-    layoutParams.setMargins(
-      location[0],
-      location[1] - (if (statusBarTranslucent) 0 else getStatusBarHeight(currentActivity)),
-      0,
-      0)
-    currentActivity.findViewById<FrameLayout>(android.R.id.content).addView(cameraView, layoutParams)
-
     val realtimeDataCallback: (RealtimeData) -> Unit = { liveData ->
       emitRealtimeEvent(view, liveData)
     }
     KenkouSDKHeadless.startMeasurement(
-      currentActivity,
+      (view.context as ThemedReactContext).currentActivity as AppCompatActivity,
       realtimeDataCallback = realtimeDataCallback,
-      preview = cameraView
+      preview = view
     )
   }
 
@@ -93,5 +90,25 @@ class KenkouRNCameraViewManager : SimpleViewManager<CameraView>() {
     val resourceId = activity.resources.getIdentifier("status_bar_height", "dimen", "android")
     return if (resourceId > 0) activity.resources.getDimensionPixelSize(resourceId)
     else Rect().apply { activity.window.decorView.getWindowVisibleDisplayFrame(this) }.top
+  }
+
+  private fun setupLayoutHack(view: CameraView) {
+    if (view.width == 0 || view.height == 0) return
+    val currentActivity = (view.context as ThemedReactContext).currentActivity as AppCompatActivity
+    val offset = if (statusBarTranslucent) 0 else getStatusBarHeight(currentActivity)
+    val rect = Rect()
+    view.getGlobalVisibleRect(rect)
+    Choreographer.getInstance().postFrameCallback(object : Choreographer.FrameCallback {
+      override fun doFrame(frameTimeNanos: Long) {
+        view.measure(
+          View.MeasureSpec.makeMeasureSpec(view.width, View.MeasureSpec.EXACTLY),
+          View.MeasureSpec.makeMeasureSpec(view.height, View.MeasureSpec.EXACTLY)
+        )
+        view.layout(rect.left, rect.top - offset, rect.right, rect.bottom - offset)
+
+        view.viewTreeObserver.dispatchOnGlobalLayout()
+        Choreographer.getInstance().postFrameCallback(this)
+      }
+    })
   }
 }

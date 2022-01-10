@@ -2,6 +2,7 @@ import {
   CameraView,
   getHistory,
   initialize,
+  initializeHeadless,
   presentHistory,
   presentMeasurement,
   presentMeasurementInstructions,
@@ -27,6 +28,7 @@ export default function App() {
 
   React.useEffect(() => {
     initialize('');
+    initializeHeadless('');
   }, []);
 
   return (
