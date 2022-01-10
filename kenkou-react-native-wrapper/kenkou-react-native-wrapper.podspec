@@ -16,5 +16,5 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m,mm,swift}"
 
   s.dependency "React-Core"
-  s.dependency 'KenkouSDK', '~> 3.0.0-beta04'
+  s.dependency 'KenkouSDK', '~> 3.0.0-beta06'
 end

@@ -23,11 +23,11 @@ PODS:
     - glog
   - glog (0.3.5)
   - kenkou-react-native-wrapper (0.1.0):
-    - KenkouSDK (~> 3.0.0-beta04)
+    - KenkouSDK (~> 3.0.0-beta06)
     - React-Core
-  - KenkouCoreMeasurement (3.1.1)
-  - KenkouSDK (3.0.0-beta04):
-    - KenkouCoreMeasurement (~> 3.1.1)
+  - KenkouCoreMeasurement (4.0.0)
+  - KenkouSDK (3.0.0-beta06):
+    - KenkouCoreMeasurement (~> 4.0.0)
     - KenkouSDKUIComponents (~> 2.1.0)
   - KenkouSDKUIComponents (2.1.0):
     - Charts
@@ -363,9 +363,9 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: f2c97f2529dd79c083355182cc158c9f98f4bd6e
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
-  kenkou-react-native-wrapper: 1f1048ecd039251e37a3b49d0eedbde91117686d
-  KenkouCoreMeasurement: 27b357f50324000f95a86b0fe2643ae97aef89ad
-  KenkouSDK: b636b86180afd6d943b5fd3c7fc5efd4c5f3439d
+  kenkou-react-native-wrapper: 374cedc1955eed5332687f993de79114cf637b77
+  KenkouCoreMeasurement: b1d6dcf553dc3176d457b7809b575612de8ba022
+  KenkouSDK: 6e24688984712dd68620f39bcf4752eee446e740
   KenkouSDKUIComponents: b1d6e2ad1cba48de8b1602a8f6c25f03dff3bda2
   RCTRequired: 082f10cd3f905d6c124597fd1c14f6f2655ff65e
   RCTTypeSafety: 8c9c544ecbf20337d069e4ae7fd9a377aadf504b
@@ -389,6 +389,6 @@ SPEC CHECKSUMS:
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
 
-PODFILE CHECKSUM: 9a0783b7d8b6ff036c82511fc0afba57acfb6757
+PODFILE CHECKSUM: e0bcb1ec9fa255398c09ac638dc47d9880a01d09
 
 COCOAPODS: 1.11.2
