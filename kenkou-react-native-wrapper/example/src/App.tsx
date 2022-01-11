@@ -32,6 +32,15 @@ export default function App() {
     initializeHeadless('');
   }, []);
 
+  const triggerStop = async () => {
+    try {
+      await stopMeasurement();
+    } catch (error: any) {
+      console.log(error.code, error.message);
+    }
+    setMeasuring(false);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.cameraContainer}>
@@ -40,7 +49,9 @@ export default function App() {
           onMeasure={({ drawData, ...data }: any) => {
             console.log(Date.now(), data);
             setRealtimeData({ ...data, drawData });
-            if (data.progress >= 1) setMeasuring(false);
+            if (data.progress >= 1) {
+              triggerStop();
+            }
           }}
           style={styles.camera}
         />
@@ -50,14 +61,7 @@ export default function App() {
           <View style={styles.button}>
             <Button
               disabled={!isMeasuring}
-              onPress={async () => {
-                try {
-                  await stopMeasurement();
-                } catch (error: any) {
-                  console.log(error.code, error.message);
-                }
-                setMeasuring(false);
-              }}
+              onPress={triggerStop}
               title="Stop Measurement"
             />
           </View>
@@ -167,7 +171,7 @@ export default function App() {
         <View style={styles.info}>
           {realtimeData &&
             Object.keys(realtimeData).map((key) => (
-              <Text numberOfLines={10} key={key}>
+              <Text key={key}>
                 <Text style={styles.infoKey}>{key}:</Text>{' '}
                 {`${realtimeData[key]}`}
               </Text>
