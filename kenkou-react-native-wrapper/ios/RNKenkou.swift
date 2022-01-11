@@ -6,7 +6,7 @@ import KenkouCoreMeasurement
 class RNKenkou: NSObject {
     
     private var measurementSDK: KenkouSDKVisualInterface!
-    private var headlessSDK: KenkouSDKHeadless!
+    static var headlessSDK: KenkouSDKHeadless!
     
     private var resolve: RCTPromiseResolveBlock!
     private var reject: RCTPromiseRejectBlock!
@@ -108,13 +108,13 @@ class RNKenkou: NSObject {
     
     @objc(initializeHeadless:)
     func initializeHeadless(token: String) -> Void {
-        headlessSDK = KenkouSDKHeadless(tokenBlock: { () -> String in return token }, locale: nil)
+        RNKenkou.headlessSDK = KenkouSDKHeadless(tokenBlock: { () -> String in return token }, locale: nil)
     }
     
     @objc(saveOnboardingQuestionnaireAnswers:withResolver:withRejecter:)
     func saveOnboardingQuestionnaireAnswers(data: NSDictionary, resolve:@escaping RCTPromiseResolveBlock, reject:@escaping RCTPromiseRejectBlock) -> Void {
         KenkouUtils.decodeData(data: data, returningClass: OnboardingQuestionnaireAnswers.self) { answers in
-            headlessSDK.saveOnboardingQuestionnaireAnswers(answers: answers)
+            RNKenkou.headlessSDK.saveOnboardingQuestionnaireAnswers(answers: answers)
             resolve(true)
         } failure: { error in
             reject("saveOnboardingQuestionnaireAnswers", error.localizedDescription, error)
@@ -134,14 +134,16 @@ class RNKenkou: NSObject {
     
     @objc(stopMeasurement:withRejecter:)
     func stopMeasurement(resolve:@escaping RCTPromiseResolveBlock, reject:@escaping RCTPromiseRejectBlock) -> Void {
-        handleData(code: "stopMeasurement", data: headlessSDK.stopMeasurement())
+        self.resolve = resolve
+        self.reject = reject
+        handleData(code: "stopMeasurement", data: RNKenkou.headlessSDK.stopMeasurement())
     }
     
     @objc(savePostMeasurementQuestionnaireAnswers:withAnswers:withResolver:withRejecter:)
     func savePostMeasurementQuestionnaireAnswers(measurement: NSDictionary, answers: NSDictionary, resolve:@escaping RCTPromiseResolveBlock, reject:@escaping RCTPromiseRejectBlock) -> Void {
         KenkouUtils.decodeData(data: measurement, returningClass: KenkouCoreMeasurement.Measurement.self) { measurement in
             KenkouUtils.decodeData(data: answers, returningClass: PostMeasurementQuestionnaireAnswers.self) { answers in
-                handleData(code: "savePostMeasurementQuestionnaireAnswers", data: headlessSDK.savePostMeasurementQuestionnaireAnswers(measurement: measurement, answers: answers))
+                handleData(code: "savePostMeasurementQuestionnaireAnswers", data: RNKenkou.headlessSDK.savePostMeasurementQuestionnaireAnswers(measurement: measurement, answers: answers))
             } failure: { error in
                 reject("savePostMeasurementQuestionnaireAnswers", error.localizedDescription, error)
             }
