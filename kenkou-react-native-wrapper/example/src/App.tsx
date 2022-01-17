@@ -7,6 +7,7 @@ import {
   presentMeasurement,
   presentMeasurementInstructions,
   presentOnboardingQuestionnaire,
+  presentPostMeasurementQuestionnaire,
   saveOnboardingQuestionnaireAnswers,
   // startMeasurement,
   stopMeasurement,
@@ -21,6 +22,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { LineChart } from 'react-native-charts-wrapper';
 
 export default function App() {
   const cameraRef = React.useRef(null);
@@ -35,7 +37,8 @@ export default function App() {
 
   const triggerStop = async () => {
     try {
-      await stopMeasurement();
+      const measurement = await stopMeasurement();
+      await presentPostMeasurementQuestionnaire(measurement);
     } catch (error: any) {
       console.log(error.code, error.message);
     }
@@ -169,12 +172,34 @@ export default function App() {
         )}
         <View style={styles.info}>
           {realtimeData &&
-            Object.keys(realtimeData).map((key) => (
-              <Text key={key}>
-                <Text style={styles.infoKey}>{key}:</Text>{' '}
-                {`${realtimeData[key]}`}
-              </Text>
-            ))}
+            Object.keys(realtimeData).map((key) =>
+              key === 'drawData' ? (
+                <LineChart
+                  key={key}
+                  style={styles.graph}
+                  data={{
+                    dataSets: [
+                      {
+                        config: {
+                          drawCircles: false,
+                          drawFilled: true,
+                          drawHorizontalHighlightIndicator: false,
+                          drawVerticalHighlightIndicator: false,
+                          fillAlpha: 200,
+                        },
+                        label: 'drawData',
+                        values: realtimeData.drawData,
+                      },
+                    ],
+                  }}
+                />
+              ) : (
+                <Text key={key}>
+                  <Text style={styles.infoKey}>{key}:</Text>{' '}
+                  {`${realtimeData[key]}`}
+                </Text>
+              )
+            )}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -184,9 +209,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
   },
   cameraContainer: {
+    alignItems: 'center',
     marginTop: 16,
   },
   camera: {
@@ -205,5 +230,11 @@ const styles = StyleSheet.create({
   },
   infoKey: {
     fontWeight: 'bold',
+  },
+  graph: {
+    flexDirection: 'row',
+    height: 250,
+    alignItems: 'flex-end',
+    marginVertical: 16,
   },
 });

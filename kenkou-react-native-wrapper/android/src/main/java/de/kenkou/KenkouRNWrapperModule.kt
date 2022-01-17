@@ -12,6 +12,7 @@ import de.kenkou.sdk.headless.KenkouSDKHeadless
 import de.kenkou.sdk.headless.core.camera.CameraView
 import de.kenkou.sdk.headless.core.service.AuthTokenProvider
 import de.kenkou.sdk.headless.domain.model.OnboardingQuestionnaireException
+import de.kenkou.sdk.headless.domain.model.exceptions.MeasurementFinishedException
 import de.kenkou.sdk.headless.domain.model.measurement.RealtimeData
 import de.kenkou.sdk.visual.KenkouSDKVisual
 import de.kenkou.sdk.visual.activityresults.KenkouActivityResult
@@ -192,8 +193,12 @@ class KenkouRNWrapperModule(reactContext: ReactApplicationContext) : ReactContex
   @RequiresApi(Build.VERSION_CODES.O)
   @ReactMethod
   fun stopMeasurement(promise: Promise) {
-    promise.resolve(KenkouSDKHeadless.stopMeasurement()
-      ?.let { KenkouUtils.getWritableMeasurement(it) })
+    try {
+      promise.resolve(KenkouSDKHeadless.stopMeasurement()
+        ?.let { KenkouUtils.getWritableMeasurement(it) })
+    } catch (e: MeasurementFinishedException) {
+      promise.reject(e)
+    }
   }
 
   @RequiresApi(Build.VERSION_CODES.O)
