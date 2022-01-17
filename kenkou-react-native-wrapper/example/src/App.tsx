@@ -26,6 +26,7 @@ export default function App() {
   const cameraRef = React.useRef(null);
   const [isMeasuring, setMeasuring] = React.useState(false);
   const [realtimeData, setRealtimeData] = React.useState(null);
+  const [onboardingAnswers, setOnboardingAnswers] = React.useState(null);
 
   React.useEffect(() => {
     initialize('');
@@ -103,6 +104,7 @@ export default function App() {
                   try {
                     const data = await presentOnboardingQuestionnaire();
                     console.log('presentOnboardingQuestionnaire', data);
+                    setOnboardingAnswers(data);
                   } catch (error: any) {
                     console.log(error.code, error.message);
                   }
@@ -130,15 +132,12 @@ export default function App() {
             </View>
             <View style={styles.button}>
               <Button
+                disabled={!onboardingAnswers}
                 onPress={async () => {
                   try {
-                    const data = await saveOnboardingQuestionnaireAnswers({
-                      birth_year: 1993,
-                      heightCm: 5,
-                      sex: 'FEMALE',
-                      timestamp: 1639590299533,
-                      weightKg: 150,
-                    });
+                    const data = await saveOnboardingQuestionnaireAnswers(
+                      onboardingAnswers
+                    );
                     console.log('saveOnboardingQuestionnaireAnswers', data);
                   } catch (error: any) {
                     console.log(error.code, error.message);

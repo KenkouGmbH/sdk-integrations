@@ -65,7 +65,7 @@ export function initializeHeadless(token: string) {
   return Kenkou.initializeHeadless(token);
 }
 
-export function saveOnboardingQuestionnaireAnswers(answers: Object) {
+export function saveOnboardingQuestionnaireAnswers(answers: any) {
   return Kenkou.saveOnboardingQuestionnaireAnswers(answers);
 }
 
@@ -78,8 +78,8 @@ export function stopMeasurement() {
 }
 
 export function savePostMeasurementQuestionnaireAnswers(
-  measurement: Object,
-  answers: Object
+  measurement: any,
+  answers: any
 ) {
   return Kenkou.savePostMeasurementQuestionnaireAnswers(measurement, answers);
 }
