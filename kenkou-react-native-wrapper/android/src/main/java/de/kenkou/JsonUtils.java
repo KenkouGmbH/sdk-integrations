@@ -45,6 +45,13 @@ public class JsonUtils {
     return exceptionMap;
   }
 
+  public static WritableMap getWritableError(String code, String message) {
+    WritableMap errorMap = Arguments.createMap();
+    errorMap.putString("code", code);
+    errorMap.putString("message", message);
+    return errorMap;
+  }
+
   public static WritableMap jsonObjectToWritableMap(JSONObject jsonObject) throws JSONException {
     Iterator<String> iterator = jsonObject.keys();
     WritableMap writableMap = Arguments.createMap();

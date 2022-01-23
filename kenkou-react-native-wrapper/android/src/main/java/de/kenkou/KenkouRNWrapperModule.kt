@@ -127,7 +127,7 @@ class KenkouRNWrapperModule(reactContext: ReactApplicationContext) : ReactContex
   }
 
   override fun onNewIntent(intent: Intent?) {
-    TODO("Not yet implemented")
+
   }
 
   // Headless Methods
@@ -198,6 +198,8 @@ class KenkouRNWrapperModule(reactContext: ReactApplicationContext) : ReactContex
         ?.let { KenkouUtils.getWritableMeasurement(it) })
     } catch (e: MeasurementFinishedException) {
       promise.reject(e)
+    } catch (e: UninitializedPropertyAccessException) {
+      promise.reject(IllegalStateException("Call startMeasurement first"))
     }
   }
 

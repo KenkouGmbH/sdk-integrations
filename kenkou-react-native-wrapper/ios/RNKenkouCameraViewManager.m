@@ -4,6 +4,7 @@
 
 RCT_EXTERN_METHOD(startMeasurement:)
 
+RCT_EXPORT_VIEW_PROPERTY(onError, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onMeasure, RCTDirectEventBlock)
 
 @end

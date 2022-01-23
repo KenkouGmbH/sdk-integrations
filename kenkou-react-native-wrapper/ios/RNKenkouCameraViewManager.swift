@@ -16,9 +16,11 @@ class RNKenkouCameraViewManager: RCTViewManager {
                         KenkouUtils.encodeData(data: data) { data in
                             view.onMeasure!(data as? [AnyHashable : Any])
                         } failure: { error in
+                            view.onError!(["message": error.localizedDescription])
                         }
                     })
-                } catch _ {
+                } catch let error {
+                    view.onError!(["message": error.localizedDescription])
                 }
             }
         }
@@ -27,6 +29,7 @@ class RNKenkouCameraViewManager: RCTViewManager {
 
 class RNKenkouCameraView : UIView {
     
+    @objc var onError: RCTDirectEventBlock?
     @objc var onMeasure: RCTDirectEventBlock?
 
     public let previewLayer: AVCaptureVideoPreviewLayer = {

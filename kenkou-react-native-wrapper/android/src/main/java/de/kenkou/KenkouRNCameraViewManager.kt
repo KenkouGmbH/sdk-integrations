@@ -1,5 +1,6 @@
 package de.kenkou
 
+import android.Manifest.permission.CAMERA
 import android.graphics.Rect
 import android.os.Build
 import android.os.Handler
@@ -8,7 +9,10 @@ import android.view.Choreographer
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.PermissionChecker
+import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import com.facebook.react.bridge.ReadableArray
+import com.facebook.react.bridge.WritableMap
 import com.facebook.react.common.MapBuilder
 import com.facebook.react.uimanager.ReactStylesDiffMap
 import com.facebook.react.uimanager.SimpleViewManager
@@ -24,6 +28,8 @@ class KenkouRNCameraViewManager : SimpleViewManager<CameraView>() {
   companion object {
     const val START_MEASUREMENT_COMMAND_NAME = "startMeasurement"
     const val START_MEASUREMENT_COMMAND = 1
+    const val EVENT_REALTIME = "realtime"
+    const val EVENT_ERROR = "error"
     var statusBarTranslucent = false
   }
 
@@ -61,29 +67,45 @@ class KenkouRNCameraViewManager : SimpleViewManager<CameraView>() {
   override fun getExportedCustomBubblingEventTypeConstants(): MutableMap<String, Any> {
     return MapBuilder.builder<String, Any>()
       .put(
-        "realtimeData", MapBuilder.of(
-          "phasedRegistrationNames",
+        EVENT_REALTIME, MapBuilder.of("phasedRegistrationNames",
           MapBuilder.of("bubbled", "onMeasure")
         )
-      ).build()
+      )
+      .put(
+        EVENT_ERROR, MapBuilder.of("phasedRegistrationNames",
+          MapBuilder.of("bubbled", "onError")
+        )
+      )
+      .build()
   }
 
   @RequiresApi(Build.VERSION_CODES.O)
-  private fun emitRealtimeEvent(view: CameraView, data: RealtimeData) {
+  private fun emitEvent(view: CameraView, eventName: String, data: WritableMap) {
     (view.context as ThemedReactContext).getJSModule(RCTEventEmitter::class.java)
-      .receiveEvent(view.getId(), "realtimeData", KenkouUtils.getWritableRealtimeData(data))
+      .receiveEvent(view.getId(), eventName, data)
   }
 
   @RequiresApi(Build.VERSION_CODES.O)
   private fun startHeadlessMeasurement(view: CameraView) {
-    val realtimeDataCallback: (RealtimeData) -> Unit = { liveData ->
-      emitRealtimeEvent(view, liveData)
+    when (PermissionChecker.checkSelfPermission(view.context, CAMERA)) {
+      PERMISSION_GRANTED -> {
+        val realtimeDataCallback: (RealtimeData) -> Unit = { liveData ->
+          emitEvent(view, EVENT_REALTIME, KenkouUtils.getWritableRealtimeData(liveData))
+        }
+        try {
+          KenkouSDKHeadless.startMeasurement(
+            (view.context as ThemedReactContext).currentActivity as AppCompatActivity,
+            realtimeDataCallback = realtimeDataCallback,
+            preview = view
+          )
+        } catch (e: Exception) {
+          emitEvent(view, EVENT_ERROR, JsonUtils.getExceptionMap(e))
+        }
+      }
+      else -> {
+        emitEvent(view, EVENT_ERROR, JsonUtils.getWritableError("permission", "Camera Permission is not granted"))
+      }
     }
-    KenkouSDKHeadless.startMeasurement(
-      (view.context as ThemedReactContext).currentActivity as AppCompatActivity,
-      realtimeDataCallback = realtimeDataCallback,
-      preview = view
-    )
   }
 
   private fun getStatusBarHeight(activity: AppCompatActivity): Int {

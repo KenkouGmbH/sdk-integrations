@@ -94,6 +94,7 @@ const ComponentName = 'RNKenkouCameraView';
 
 type CameraViewProps = {
   ref?: any;
+  onError: Function;
   onMeasure: Function;
   statusBarTranslucent?: boolean;
   style?: ViewStyle;
@@ -107,7 +108,7 @@ const RCTCameraView =
       };
 
 export const CameraView = React.forwardRef(
-  ({ onMeasure, ...props }: CameraViewProps, ref) => {
+  ({ onError, onMeasure, ...props }: CameraViewProps, ref) => {
     const cameraRef = React.useRef();
     React.useImperativeHandle(ref, () => ({
       startMeasurement: () => {
@@ -122,6 +123,7 @@ export const CameraView = React.forwardRef(
     return (
       <RCTCameraView
         ref={cameraRef}
+        onError={(event: any) => onError(event.nativeEvent)}
         onMeasure={(event: any) => onMeasure(event.nativeEvent)}
         {...props}
       />

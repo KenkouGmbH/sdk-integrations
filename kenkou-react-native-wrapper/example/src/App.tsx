@@ -16,6 +16,8 @@ import React from 'react';
 import {
   Alert,
   Button,
+  PermissionsAndroid,
+  Platform,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -25,9 +27,9 @@ import {
 import { LineChart } from 'react-native-charts-wrapper';
 
 export default function App() {
-  const cameraRef = React.useRef(null);
+  const cameraRef = React.useRef<any>(null);
   const [isMeasuring, setMeasuring] = React.useState(false);
-  const [realtimeData, setRealtimeData] = React.useState(null);
+  const [realtimeData, setRealtimeData] = React.useState<any>(null);
   const [onboardingAnswers, setOnboardingAnswers] = React.useState(null);
 
   React.useEffect(() => {
@@ -38,7 +40,9 @@ export default function App() {
   const triggerStop = async () => {
     try {
       const measurement = await stopMeasurement();
-      await presentPostMeasurementQuestionnaire(measurement);
+      if (measurement) {
+        await presentPostMeasurementQuestionnaire(measurement);
+      }
     } catch (error: any) {
       console.log(error.code, error.message);
     }
@@ -50,6 +54,11 @@ export default function App() {
       <View style={styles.cameraContainer}>
         <CameraView
           ref={cameraRef}
+          onError={(error: any) => {
+            console.log(error);
+            Alert.alert(error.message);
+            setMeasuring(false);
+          }}
           onMeasure={({ drawData, ...data }: any) => {
             console.log(Date.now(), data);
             setRealtimeData({ ...data, drawData });
@@ -138,10 +147,14 @@ export default function App() {
                 disabled={!onboardingAnswers}
                 onPress={async () => {
                   try {
-                    const data = await saveOnboardingQuestionnaireAnswers(
+                    const saved = await saveOnboardingQuestionnaireAnswers(
                       onboardingAnswers
                     );
-                    console.log('saveOnboardingQuestionnaireAnswers', data);
+                    console.log('saveOnboardingQuestionnaireAnswers', saved);
+                    if (saved) {
+                      setOnboardingAnswers(null);
+                      Alert.alert('Onboarding questionnaire answers saved!');
+                    }
                   } catch (error: any) {
                     console.log(error.code, error.message);
                   }
@@ -153,14 +166,21 @@ export default function App() {
               <Button
                 onPress={async () => {
                   try {
-                    await cameraRef.current?.startMeasurement();
-                    // await startMeasurement({
-                    //   width: 80,
-                    //   height: 80,
-                    //   left: 20,
-                    //   top: 20,
-                    // });
-                    setMeasuring(true);
+                    const granted =
+                      Platform.OS === 'ios' ||
+                      (await PermissionsAndroid.request(
+                        PermissionsAndroid.PERMISSIONS.CAMERA
+                      )) === 'granted';
+                    if (granted) {
+                      cameraRef.current?.startMeasurement();
+                      // await startMeasurement({
+                      //   width: 80,
+                      //   height: 80,
+                      //   left: 20,
+                      //   top: 20,
+                      // });
+                      setMeasuring(true);
+                    }
                   } catch (error: any) {
                     console.log(error.code, error.message);
                   }
