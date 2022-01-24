@@ -9,7 +9,6 @@ import {
   presentOnboardingQuestionnaire,
   presentPostMeasurementQuestionnaire,
   saveOnboardingQuestionnaireAnswers,
-  // startMeasurement,
   stopMeasurement,
 } from 'kenkou-react-native-wrapper';
 import React from 'react';
@@ -173,12 +172,6 @@ export default function App() {
                       )) === 'granted';
                     if (granted) {
                       cameraRef.current?.startMeasurement();
-                      // await startMeasurement({
-                      //   width: 80,
-                      //   height: 80,
-                      //   left: 20,
-                      //   top: 20,
-                      // });
                       setMeasuring(true);
                     }
                   } catch (error: any) {
