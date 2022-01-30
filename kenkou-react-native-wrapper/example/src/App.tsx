@@ -24,12 +24,16 @@ import {
   View,
 } from 'react-native';
 import { LineChart } from 'react-native-charts-wrapper';
+import type { OnboardingQuestionnaireAnswers, RealtimeData } from 'src/utils';
 
 export default function App() {
   const cameraRef = React.useRef<any>(null);
   const [isMeasuring, setMeasuring] = React.useState(false);
-  const [realtimeData, setRealtimeData] = React.useState<any>(null);
-  const [onboardingAnswers, setOnboardingAnswers] = React.useState(null);
+  const [realtimeData, setRealtimeData] = React.useState<RealtimeData | null>(
+    null
+  );
+  const [onboardingAnswers, setOnboardingAnswers] =
+    React.useState<OnboardingQuestionnaireAnswers | null>(null);
 
   React.useEffect(() => {
     initialize('');
@@ -58,7 +62,7 @@ export default function App() {
             Alert.alert(error.message);
             setMeasuring(false);
           }}
-          onMeasure={({ drawData, ...data }: any) => {
+          onMeasure={({ drawData, ...data }) => {
             console.log(Date.now(), data);
             setRealtimeData({ ...data, drawData });
             if (data.progress >= 1) {
@@ -146,13 +150,15 @@ export default function App() {
                 disabled={!onboardingAnswers}
                 onPress={async () => {
                   try {
-                    const saved = await saveOnboardingQuestionnaireAnswers(
-                      onboardingAnswers
-                    );
-                    console.log('saveOnboardingQuestionnaireAnswers', saved);
-                    if (saved) {
-                      setOnboardingAnswers(null);
-                      Alert.alert('Onboarding questionnaire answers saved!');
+                    if (onboardingAnswers !== null) {
+                      const saved = await saveOnboardingQuestionnaireAnswers(
+                        onboardingAnswers
+                      );
+                      console.log('saveOnboardingQuestionnaireAnswers', saved);
+                      if (saved) {
+                        setOnboardingAnswers(null);
+                        Alert.alert('Onboarding questionnaire answers saved!');
+                      }
                     }
                   } catch (error: any) {
                     console.log(error.code, error.message);

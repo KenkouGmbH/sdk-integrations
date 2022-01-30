@@ -5,8 +5,15 @@ import {
   Platform,
   requireNativeComponent,
   UIManager,
-  ViewStyle,
 } from 'react-native';
+import type {
+  CameraViewProps,
+  HistoryItem,
+  Measurement,
+  OnboardingQuestionnaireAnswers,
+  PostMeasurementQuestionnaireAnswers,
+  StartMeasurementParams,
+} from './utils';
 
 const LINKING_ERROR =
   `The package 'kenkou-react-native-wrapper' doesn't seem to be linked. Make sure: \n\n` +
@@ -31,31 +38,31 @@ export function initialize(token: string) {
   return Kenkou.initialize(token);
 }
 
-export function presentMeasurementInstructions() {
+export function presentMeasurementInstructions(): boolean {
   return Kenkou.presentMeasurementInstructions();
 }
 
-export function presentOnboardingQuestionnaire() {
+export function presentOnboardingQuestionnaire(): OnboardingQuestionnaireAnswers {
   return Kenkou.presentOnboardingQuestionnaire();
 }
 
-export function presentMeasurement() {
+export function presentMeasurement(): Measurement {
   return Kenkou.presentMeasurement();
 }
 
-export function presentPostMeasurementQuestionnaire(measurement: Object) {
+export function presentPostMeasurementQuestionnaire(measurement: Measurement) {
   return Kenkou.presentPostMeasurementQuestionnaire(measurement);
 }
 
-export function presentMeasurementResults(measurement: Object) {
+export function presentMeasurementResults(measurement: Measurement) {
   return Kenkou.presentMeasurementResults(measurement);
 }
 
-export function presentHistoryItem(historyItem: Object) {
+export function presentHistoryItem(historyItem: HistoryItem) {
   return Kenkou.presentHistoryItem(historyItem);
 }
 
-export function presentHistory(history: Array<Object>) {
+export function presentHistory(history: Array<HistoryItem>) {
   return Kenkou.presentHistory(history);
 }
 
@@ -65,22 +72,24 @@ export function initializeHeadless(token: string) {
   return Kenkou.initializeHeadless(token);
 }
 
-export function saveOnboardingQuestionnaireAnswers(answers: any) {
+export function saveOnboardingQuestionnaireAnswers(
+  answers: OnboardingQuestionnaireAnswers
+) {
   return Kenkou.saveOnboardingQuestionnaireAnswers(answers);
 }
 
-export function startMeasurement(params: Object) {
+export function startMeasurement(params: StartMeasurementParams) {
   return Kenkou.startMeasurement(params);
 }
 
-export function stopMeasurement() {
+export function stopMeasurement(): Measurement {
   return Kenkou.stopMeasurement();
 }
 
 export function savePostMeasurementQuestionnaireAnswers(
-  measurement: any,
-  answers: any
-) {
+  measurement: Measurement,
+  answers: PostMeasurementQuestionnaireAnswers
+): Measurement {
   return Kenkou.savePostMeasurementQuestionnaireAnswers(measurement, answers);
 }
 
@@ -92,17 +101,9 @@ export function getHistory() {
 
 const ComponentName = 'RNKenkouCameraView';
 
-type CameraViewProps = {
-  ref?: any;
-  onError: Function;
-  onMeasure: Function;
-  statusBarTranslucent?: boolean;
-  style?: ViewStyle;
-};
-
 const RCTCameraView =
   UIManager.getViewManagerConfig(ComponentName) != null
-    ? requireNativeComponent<CameraViewProps>(ComponentName)
+    ? requireNativeComponent<any>(ComponentName)
     : () => {
         throw new Error(LINKING_ERROR);
       };
