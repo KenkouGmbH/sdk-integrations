@@ -23,7 +23,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import { LineChart } from 'react-native-charts-wrapper';
 import type { OnboardingQuestionnaireAnswers, RealtimeData } from 'src/utils';
 
 export default function App() {
@@ -191,34 +190,12 @@ export default function App() {
         )}
         <View style={styles.info}>
           {realtimeData &&
-            Object.keys(realtimeData).map((key) =>
-              key === 'drawData' ? (
-                <LineChart
-                  key={key}
-                  style={styles.graph}
-                  data={{
-                    dataSets: [
-                      {
-                        config: {
-                          drawCircles: false,
-                          drawFilled: true,
-                          drawHorizontalHighlightIndicator: false,
-                          drawVerticalHighlightIndicator: false,
-                          fillAlpha: 200,
-                        },
-                        label: 'drawData',
-                        values: realtimeData.drawData,
-                      },
-                    ],
-                  }}
-                />
-              ) : (
-                <Text key={key}>
-                  <Text style={styles.infoKey}>{key}:</Text>{' '}
-                  {`${realtimeData[key]}`}
-                </Text>
-              )
-            )}
+            Object.keys(realtimeData).map((key) => (
+              <Text key={key}>
+                <Text style={styles.infoKey}>{key}:</Text>{' '}
+                {`${realtimeData[key]}`}
+              </Text>
+            ))}
         </View>
       </ScrollView>
     </SafeAreaView>
